@@ -8,7 +8,6 @@ let movieValue;
 
 const search = (typeOfSearch) => {
   searchValue = typeOfSearch;
-  console.log(searchValue, movieValue);
   return searchValue;
 };
 
@@ -18,7 +17,7 @@ const searchName = (value) => {
 };
 
 const apiMdb = create({
-  baseURL: `https://api.themoviedb.org/3/search/${searchValue}?api_key=${Constants.manifest.extra.TMDB_API_KEY}&language=en-US&query=${movieValue}`,
+  baseURL: `https://api.themoviedb.org/3/search`,
 });
 
 export default { search, create, searchName, apiMdb };

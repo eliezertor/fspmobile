@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Back-end for SFP, a movie app",
+  "main": "server.js",
+  "author": "Eliezer T",
+  "license": "MIT",
+  "dependencies": {
+    "node-modules": "^0.0.1"
+  }
+}

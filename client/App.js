@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import MoviesApi from './app/api/movies';
+
+import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import MoviesApi from './app/api/movies';
+import LoginScreen from './app/screens/LoginScreen';
+import WelcomeScreen from './app/screens/WelcomeScreen';
+import RegisterScreen from './app/screens/RegisterScreen';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const [movies, setMovies] = useState();
@@ -18,26 +28,41 @@ export default function App() {
     if (!result.ok) return setMovies(result);
   };
 
-  MoviesApi.apiMdb
-    .get(
-      `/${movies}?api_key=${Constants.manifest.extra.TMDB_API_KEY}&language=en-US&query=jack+reacher&page=1&include_adult=false`
-    )
-    .then((response) => {
-      console.log(response.data);
-    });
+  // MoviesApi.apiMdb
+  //   .get(
+  //     `/${movies}?api_key=${Constants.manifest.extra.TMDB_API_KEY}&language=en-US&query=jack+reacher&page=1&include_adult=false`
+  //   )
+  //   .then((response) => {
+  //     console.log(response.data);
+  //   });
 
   // console.log(movies);
   // console.log(Constants.manifest.extra.TMDB_API_KEY);
-  console.log(result);
+  // console.log(result);
 
   searchType('movie');
   search('jack reacher');
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

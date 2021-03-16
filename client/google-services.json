@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "894162013202",
+    "firebase_url": "https://for-sensitive-people-default-rtdb.firebaseio.com",
+    "project_id": "for-sensitive-people",
+    "storage_bucket": "for-sensitive-people.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894162013202:android:0e559061fcaf2b3c20dccb",
+        "android_client_info": {
+          "package_name": "com.forsensitivepeople.fsp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894162013202-5p92sb3vli63vgb8ftao901j507eqp3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnn4i6RTA0yrS8Md2DYwqjXkHzu4JpXNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894162013202-5p92sb3vli63vgb8ftao901j507eqp3h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "894162013202-vdkga6mjmq3tjpqpa8b4qd28oabnktr6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.forsensitivepeople.fsp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

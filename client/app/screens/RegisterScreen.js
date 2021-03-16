@@ -1,5 +1,11 @@
-import React from 'react';
-import { View, StyleSheet, TextInput, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 
 import * as Yup from 'yup';
 import { Formik, Field, Form } from 'formik';
@@ -8,17 +14,20 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SafeAreaScreen from '../compnents/SafeAreaScreen';
 import AppForm from '../compnents/forms/Form';
 import colors from '../config/colors';
+import FspButton from '../compnents/FspButton';
 
 function RegisterScreen({ navigation }) {
+  const [showPassword, setShowPassword] = useState(true);
+
   let validationSchema = Yup.object().shape({
     name: Yup.string().required().label('Name'),
     email: Yup.string().email().required().label('Email'),
     password: Yup.string().required().min(4).label('Password'),
   });
 
-
-  
-
+  const secureTextDisplay = () => {
+    showPassword ? setShowPassword(false) : setShowPassword(true);
+  };
 
   return (
     // <SafeAreaScreen style={styles.container}>
@@ -55,14 +64,19 @@ function RegisterScreen({ navigation }) {
         <View style={styles.input}>
           <MaterialCommunityIcons size={20} style={styles.icon} name="lock" />
           <TextInput
+            style={styles.passwordInput}
             placeholder="password"
             name="password"
             placeholderTextColor={colors.gunmetal}
+            secureTextEntry={showPassword}
           />
+          <TouchableOpacity onPress={() => secureTextDisplay()}>
+            <MaterialCommunityIcons name="eye" size={20} color={colors.blue} />
+          </TouchableOpacity>
         </View>
+        <FspButton title="Register" color="Primary" />
       </AppForm>
     </ImageBackground>
-    // {/* </SafeAreaScreen> */}
   );
 }
 const styles = StyleSheet.create({
@@ -80,9 +94,7 @@ const styles = StyleSheet.create({
   },
   icon: { marginHorizontal: 10, color: colors.gunmetal },
   input: {
-    // flex: 1,
     flexDirection: 'row',
-    // justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
     width: '90%',
@@ -92,6 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: colors.Primary,
   },
+  passwordInput: { width: '80%' },
 });
 
 export default RegisterScreen;

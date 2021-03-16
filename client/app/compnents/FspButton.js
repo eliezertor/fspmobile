@@ -6,6 +6,7 @@ import colors from '../config/colors';
 function FspButton({ title, onPress, color }) {
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={[styles.button, { backgroundColor: colors[color] }]}
     >
       <Text style={styles.text}>{title}</Text>
@@ -15,11 +16,11 @@ function FspButton({ title, onPress, color }) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.Primary,
-    borderRadius: 25,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 15,
-    width: '100%',
+    width: '90%',
     marginVertical: 10,
   },
   text: {

@@ -8,19 +8,20 @@ import {
 } from 'react-native';
 
 import * as Yup from 'yup';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form, useFormikContext } from 'formik';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import SafeAreaScreen from '../compnents/SafeAreaScreen';
 import AppForm from '../compnents/forms/Form';
 import colors from '../config/colors';
 import FspButton from '../compnents/FspButton';
+
+import createUser from '../auth/auth';
 
 function RegisterScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(true);
 
   let validationSchema = Yup.object().shape({
-    name: Yup.string().required().label('Name'),
+    // name: Yup.string().required().label('Name'),
     email: Yup.string().email().required().label('Email'),
     password: Yup.string().required().min(4).label('Password'),
   });
@@ -29,53 +30,90 @@ function RegisterScreen({ navigation }) {
     showPassword ? setShowPassword(false) : setShowPassword(true);
   };
 
+  const handleSubmit = (email, password) => {
+    createUser.newUser(email, password);
+  };
+
+  // const {
+  //   setFieldTouched,
+  //   setFieldValue,
+  //   errors,
+  //   touched,
+  //   values,
+  // } = useFormikContext();
+
   return (
-    // <SafeAreaScreen style={styles.container}>
     <ImageBackground
       blurRadius={3}
       source={require('../assets/movie-back.jpg')}
       style={styles.background}
     >
-      <AppForm
-        // onSubmit={onSubmit}
-        initialValues={{ name: '', email: '', password: '' }}
+      <Formik
+        // onSubmit={(values) => console.log(values)}
+        initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
       >
-        <View style={styles.input}>
-          <MaterialCommunityIcons
-            size={20}
-            style={styles.icon}
-            name="account-box"
-          />
-          <TextInput
-            placeholder="Name"
-            name="name"
-            placeholderTextColor={colors.gunmetal}
-          />
-        </View>
-        <View style={styles.input}>
-          <MaterialCommunityIcons size={20} style={styles.icon} name="email" />
-          <TextInput
-            placeholder="Email"
-            name="email"
-            placeholderTextColor={colors.gunmetal}
-          />
-        </View>
-        <View style={styles.input}>
-          <MaterialCommunityIcons size={20} style={styles.icon} name="lock" />
-          <TextInput
-            style={styles.passwordInput}
-            placeholder="password"
-            name="password"
-            placeholderTextColor={colors.gunmetal}
-            secureTextEntry={showPassword}
-          />
-          <TouchableOpacity onPress={() => secureTextDisplay()}>
-            <MaterialCommunityIcons name="eye" size={20} color={colors.blue} />
-          </TouchableOpacity>
-        </View>
-        <FspButton title="Register" color="Primary" />
-      </AppForm>
+        {({ handleChange, handleBlur, values }) => (
+          <>
+            {/* <View style={styles.input}>
+              <MaterialCommunityIcons
+                size={20}
+                style={styles.icon}
+                name="account-box"
+              />
+              <TextInput
+                placeholder="Name"
+                name="name"
+                placeholderTextColor={colors.gunmetal}
+              />
+            </View> */}
+            <View style={styles.input}>
+              <MaterialCommunityIcons
+                size={20}
+                style={styles.icon}
+                name="email"
+              />
+              <TextInput
+                placeholder="Email"
+                name="email"
+                placeholderTextColor={colors.gunmetal}
+                value={values.email}
+                onBlur={handleBlur('email')}
+                onChangeText={handleChange('email')}
+              />
+            </View>
+            <View style={styles.input}>
+              <MaterialCommunityIcons
+                size={20}
+                style={styles.icon}
+                name="lock"
+              />
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="password"
+                name="password"
+                placeholderTextColor={colors.gunmetal}
+                secureTextEntry={showPassword}
+                value={values.password}
+                onBlur={handleBlur('password')}
+                onChangeText={handleChange('password')}
+              />
+              <TouchableOpacity onPress={() => secureTextDisplay()}>
+                <MaterialCommunityIcons
+                  name="eye"
+                  size={20}
+                  color={colors.blue}
+                />
+              </TouchableOpacity>
+            </View>
+            <FspButton
+              title="Register"
+              color="Primary"
+              onPress={() => handleSubmit(values)}
+            />
+          </>
+        )}
+      </Formik>
     </ImageBackground>
   );
 }

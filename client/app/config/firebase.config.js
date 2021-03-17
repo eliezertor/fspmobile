@@ -1,7 +1,7 @@
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAl4VN_sDbD4eIAkW6_ynSKNt1-O5L0oNk',
+  apiKey: 'AIzaSyAnn4i6RTA0yrS8Md2DYwqjXkHzu4JpXNM',
   authDomain: 'for-sensitive-people.firebaseapp.com',
   databaseURL: 'https://for-sensitive-people-default-rtdb.firebaseio.com/',
   projectId: 'for-sensitive-people',

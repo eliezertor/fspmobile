@@ -7,17 +7,31 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import * as Yup from 'yup';
+
 import { Formik } from 'formik';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
 import FspButton from '../compnents/FspButton';
+import AppForm from '../compnents/forms/Form';
+
+import signIn from '../auth/auth';
 
 function LoginScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(true);
 
+  let validationSchema = Yup.object().shape({
+    email: Yup.string().email().required().label('Email'),
+    password: Yup.string().required().min(4).label('Password'),
+  });
+
   const secureTextDisplay = () => {
     showPassword ? setShowPassword(false) : setShowPassword(true);
+  };
+
+  const handleSubmit = (email, password) => {
+    signIn.signIn(email, password);
   };
 
   return (
@@ -27,52 +41,68 @@ function LoginScreen({ navigation }) {
       style={styles.background}
     >
       <Formik
-        style={styles.form}
         initialValues={{ email: '', password: '' }}
-        onSubmit={(values) => console.log(values)}
+        // onSubmit={(values) => console.log(values)}
+        validationSchema={validationSchema}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          // <View style={styles.container}>
-          <View style={styles.inputContainer}>
-            <View style={styles.textContainer}>
-              <MaterialCommunityIcons
-                name="account"
-                size={20}
-                color={colors.gunmetal}
-              />
-              <TextInput
-                style={styles.TextInput}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-              />
-            </View>
-
-            <View style={styles.textContainer}>
-              <MaterialCommunityIcons
-                name="lock"
-                size={20}
-                color={colors.gunmetal}
-              />
-              <TextInput
-                style={styles.TextInput}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-                secureTextEntry={showPassword}
-              />
-              <TouchableOpacity onPress={() => secureTextDisplay()}>
+        {({ handleChange, handleBlur, values }) => (
+          <>
+            <View style={styles.inputContainer}>
+              <View style={styles.textContainer}>
                 <MaterialCommunityIcons
-                  name="eye"
+                  name="account"
                   size={20}
-                  color={colors.blue}
+                  color={colors.gunmetal}
                 />
-              </TouchableOpacity>
+                <TextInput
+                  name="email"
+                  style={styles.TextInput}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  placeholder="Email"
+                  value={values.email}
+                />
+              </View>
+
+              <View style={styles.textContainer}>
+                <MaterialCommunityIcons
+                  name="lock"
+                  size={20}
+                  color={colors.gunmetal}
+                />
+                <TextInput
+                  name="password"
+                  placeholder="Password"
+                  style={styles.TextInput}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  secureTextEntry={showPassword}
+                />
+                <TouchableOpacity onPress={() => secureTextDisplay()}>
+                  <MaterialCommunityIcons
+                    name="eye"
+                    size={20}
+                    color={colors.blue}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.buttonContainer}>
+                <FspButton
+                  style={styles.button}
+                  title="Login"
+                  color="Primary"
+                  onPress={() => handleSubmit(values)}
+                />
+              </View>
+                <FspButton
+                  style={styles.button}
+                  title="Sign Out"
+                  color="secondary"
+                  onPress={() => signIn.signOut()}
+                />
             </View>
-            <View style={styles.buttonContainer}>
-              <FspButton style={styles.button} title="Login" color="Primary" />
-            </View>
-          </View>
+          </>
         )}
       </Formik>
     </ImageBackground>
@@ -109,7 +139,8 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     color: colors.gunmetal,
-    width: '85%',
+    width: '80%',
+    marginHorizontal: 10,
     marginVertical: 10,
   },
   buttonContainer: {

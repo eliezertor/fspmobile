@@ -1,12 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground, Image } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Platform,
+} from 'react-native';
 
 import FspButton from '../compnents/FspButton';
+import Constants from 'expo-constants';
 
 function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
-      blurRadius={3}
+      blurRadius={Platform.select({})}
       source={require('../assets/movie-back.jpg')}
       style={styles.background}
     >

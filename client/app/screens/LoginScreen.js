@@ -17,9 +17,11 @@ import FspButton from '../compnents/FspButton';
 import AppForm from '../compnents/forms/Form';
 
 import signIn from '../auth/auth';
+import getToken from '../auth/authStorage';
 
 function LoginScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(true);
+  const [user, setUser] = useState();
 
   let validationSchema = Yup.object().shape({
     email: Yup.string().email().required().label('Email'),
@@ -33,6 +35,13 @@ function LoginScreen({ navigation }) {
   const handleSubmit = (email, password) => {
     signIn.signIn(email, password);
   };
+
+  const restoreUser = async () => {
+    let user = await getToken.getUser();
+    if (user) setUser(user);
+  };
+
+  console.log(user, 'This is me ');
 
   return (
     <ImageBackground
@@ -92,15 +101,17 @@ function LoginScreen({ navigation }) {
                   style={styles.button}
                   title="Login"
                   color="Primary"
-                  onPress={() => handleSubmit(values)}
+                  onPress={() => {
+                    handleSubmit(values), restoreUser();
+                  }}
                 />
               </View>
-                <FspButton
-                  style={styles.button}
-                  title="Sign Out"
-                  color="secondary"
-                  onPress={() => signIn.signOut()}
-                />
+              <FspButton
+                style={styles.button}
+                title="Sign Out"
+                color="secondary"
+                onPress={() => signIn.signOut()}
+              />
             </View>
           </>
         )}

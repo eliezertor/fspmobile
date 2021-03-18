@@ -1,6 +1,6 @@
 import firebase from '../config/firebase.config';
 
-const emailVerification = (user) => {
+const emailVerification = () => {
   var user = firebase.auth().currentUser;
 
   user

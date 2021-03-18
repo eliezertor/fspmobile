@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
+  Text,
   TextInput,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 
 import * as Yup from 'yup';
-import { Formik, Field, Form, useFormikContext } from 'formik';
+import { Formik, Field, Form, useFormikContext, ErrorMessage } from 'formik';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import AppForm from '../component/forms/Form';
@@ -21,9 +22,14 @@ function RegisterScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(true);
 
   let validationSchema = Yup.object().shape({
-    // name: Yup.string().required().label('Name'),
-    email: Yup.string().email().required().label('Email'),
-    password: Yup.string().required().min(4).label('Password'),
+    email: Yup.string()
+      .email('Invalid email')
+      .required('Email is Required')
+      .label('Email'),
+    password: Yup.string()
+      .min(4, 'Too short')
+      .required('Password is required')
+      .label('Password'),
   });
 
   const secureTextDisplay = () => {
@@ -41,6 +47,7 @@ function RegisterScreen({ navigation }) {
   //   touched,
   //   values,
   // } = useFormikContext();
+  // const validationColor = !touched ? '#223e4b' : error ? '#FF5A5F' : '#223e4b';
 
   return (
     <ImageBackground
@@ -50,23 +57,16 @@ function RegisterScreen({ navigation }) {
     >
       <Formik
         // onSubmit={(values) => console.log(values)}
+        // ErrorMessage={error}
         initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
       >
-        {({ handleChange, handleBlur, values }) => (
+        {({ handleChange, handleBlur, values, errors, touched }) => (
           <>
-            {/* <View style={styles.input}>
-              <MaterialCommunityIcons
-                size={20}
-                style={styles.icon}
-                name="account-box"
-              />
-              <TextInput
-                placeholder="Name"
-                name="name"
-                placeholderTextColor={colors.gunmetal}
-              />
-            </View> */}
+            <ErrorMessage name="email">
+              {(msg) => <Text style={styles.error}>{msg}</Text>}
+            </ErrorMessage>
+
             <View style={styles.input}>
               <MaterialCommunityIcons
                 size={20}
@@ -80,23 +80,44 @@ function RegisterScreen({ navigation }) {
                 value={values.email}
                 onBlur={handleBlur('email')}
                 onChangeText={handleChange('email')}
+                error={errors.email}
+                touched={touched.email}
+                textContentType="emailAddress"
+                autoCompleteType="email"
+                keyboardType="email-address"
+                returnKeyType="next"
+                returnKeyLabel="Next"
+                autoCapitalize="none"
               />
             </View>
+
+            <ErrorMessage name="password">
+              {(msg) => <Text style={styles.error}>{msg}</Text>}
+            </ErrorMessage>
+
             <View style={styles.input}>
               <MaterialCommunityIcons
                 size={20}
                 style={styles.icon}
+                // color={!touched ? '#223e4b' : errors ? '#FF5A5F' : '#223e4b'}
                 name="lock"
               />
+
               <TextInput
                 style={styles.passwordInput}
-                placeholder="password"
+                placeholder="Password"
                 name="password"
                 placeholderTextColor={colors.gunmetal}
                 secureTextEntry={showPassword}
                 value={values.password}
                 onBlur={handleBlur('password')}
                 onChangeText={handleChange('password')}
+                error={errors.password}
+                touched={touched.password}
+                autoCompleteType="password"
+                autoCapitalize="none"
+                returnKeyType="go"
+                returnKeyLabel="Go"
               />
               <TouchableOpacity onPress={() => secureTextDisplay()}>
                 <MaterialCommunityIcons
@@ -130,6 +151,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  error: { color: 'white', alignSelf: 'flex-start', marginLeft: 25 },
   icon: { marginHorizontal: 10, color: colors.gunmetal },
   input: {
     flexDirection: 'row',

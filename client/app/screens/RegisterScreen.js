@@ -11,9 +11,9 @@ import * as Yup from 'yup';
 import { Formik, Field, Form, useFormikContext } from 'formik';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import AppForm from '../compnents/forms/Form';
+import AppForm from '../component/forms/Form';
 import colors from '../config/colors';
-import FspButton from '../compnents/FspButton';
+import FspButton from '../component/FspButton';
 
 import createUser from '../auth/auth';
 

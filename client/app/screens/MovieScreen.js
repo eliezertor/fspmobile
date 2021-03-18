@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import SafeAreaScreen from '../compnents/SafeAreaScreen';
+import SafeAreaScreen from '../component/SafeAreaScreen';
 
 function MovieScreen(props) {
   return (

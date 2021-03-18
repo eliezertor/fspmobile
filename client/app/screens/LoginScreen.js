@@ -13,8 +13,8 @@ import { Formik } from 'formik';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import colors from '../config/colors';
-import FspButton from '../compnents/FspButton';
-import AppForm from '../compnents/forms/Form';
+import FspButton from '../component/FspButton';
+import AppForm from '../component/forms/Form';
 
 import signIn from '../auth/auth';
 import getToken from '../auth/authStorage';

@@ -7,13 +7,16 @@ import {
   Platform,
 } from 'react-native';
 
-import FspButton from '../compnents/FspButton';
-import Constants from 'expo-constants';
+import FspButton from '../component/FspButton';
+// import Constants from 'expo-constants';
+
+// Platform.OS === "ios" ? 20 : 2
+// Constants.platform
 
 function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
-      blurRadius={Platform.select({})}
+      blurRadius={Platform.OS === 'ios' ? 8 : 2}
       source={require('../assets/movie-back.jpg')}
       style={styles.background}
     >

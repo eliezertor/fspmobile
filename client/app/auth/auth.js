@@ -65,8 +65,8 @@ const signOut = () => {
     .auth()
     .signOut()
     .then(() => {
-      authStorage.removeToken();
       setUser(null);
+      authStorage.removeToken();
     })
     .catch((error) => {
       // An error happened.

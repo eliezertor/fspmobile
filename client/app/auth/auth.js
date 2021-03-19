@@ -5,14 +5,19 @@ import jwt_decode from 'jwt-decode';
 import emailVerification from './emailValidation';
 import authStorage from './authStorage';
 
+// Creates a user with builtin Firebase Method
 const newUser = async ({ email, password }) => {
   await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      // Signed in
+      /**
+       * ! TODO: sign in user once account is created
+       */
       let user = userCredential.user;
       console.log(user);
+
+      // Calls builtin Firebase Method to validate users email
       if (user) emailVerification.emailVerification(user);
     })
     .catch((error) => {
@@ -22,14 +27,17 @@ const newUser = async ({ email, password }) => {
     });
 };
 
+// Looks at database and returns a user with builtin Firebase Method
 const signIn = ({ email, password }) => {
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      // Signed in
+      /**
+       * ! TODO: sign in user once signed in
+       */
       var user = userCredential.user;
-      // console.log(user.providerData, user.emailVerified);
+      // If there is a user a token is requested
       if (user) setToken(user);
     })
     .catch((error) => {
@@ -39,23 +47,24 @@ const signIn = ({ email, password }) => {
     });
 };
 
-const setToken = async (user) => {
+// Gets token from Firebase
+const setToken = async () => {
   await firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       user.getIdToken().then(function (idToken) {
+        // If there is a token the token will be passed to and stored
         authStorage.storeToken(idToken);
       });
     }
   });
 };
 
-const signOut = (user) => {
+// signs out user and calls remove token to delete token
+const signOut = () => {
   firebase
     .auth()
     .signOut()
     .then(() => {
-      // Sign-out successful.
-      // console.log(`${user} signed out`);
       authStorage.removeToken();
       setUser(null);
     })
@@ -63,6 +72,5 @@ const signOut = (user) => {
       // An error happened.
     });
 };
-
 
 export default { newUser, signIn, signOut };

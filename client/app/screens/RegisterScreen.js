@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ErrorMessage, Formik } from 'formik';
 import {
-  View,
+  ImageBackground,
   StyleSheet,
   Text,
   TextInput,
-  ImageBackground,
   TouchableOpacity,
+  View,
 } from 'react-native';
-
 import * as Yup from 'yup';
-import { Formik, Field, Form, useFormikContext, ErrorMessage } from 'formik';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-import AppForm from '../component/forms/Form';
-import colors from '../config/colors';
-import FspButton from '../component/FspButton';
-
 import createUser from '../auth/auth';
+import FspButton from '../component/FspButton';
+import colors from '../config/colors';
 
 function RegisterScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(true);
@@ -40,15 +36,6 @@ function RegisterScreen({ navigation }) {
     createUser.newUser(email, password);
   };
 
-  // const {
-  //   setFieldTouched,
-  //   setFieldValue,
-  //   errors,
-  //   touched,
-  //   values,
-  // } = useFormikContext();
-  // const validationColor = !touched ? '#223e4b' : error ? '#FF5A5F' : '#223e4b';
-
   return (
     <ImageBackground
       blurRadius={3}
@@ -57,7 +44,6 @@ function RegisterScreen({ navigation }) {
     >
       <Formik
         // onSubmit={(values) => console.log(values)}
-        // ErrorMessage={error}
         initialValues={{ email: '', password: '' }}
         validationSchema={validationSchema}
       >
@@ -71,23 +57,30 @@ function RegisterScreen({ navigation }) {
               <MaterialCommunityIcons
                 size={20}
                 style={styles.icon}
+                color={
+                  !touched
+                    ? colors.gunmetal
+                    : errors.email
+                    ? '#FF5A5F'
+                    : colors.gunmetal
+                }
                 name="email"
               />
               <TextInput
-                placeholder="Email"
+                autoCapitalize="none"
+                autoCompleteType="email"
+                error={errors.email}
+                keyboardType="email-address"
                 name="email"
-                placeholderTextColor={colors.gunmetal}
-                value={values.email}
                 onBlur={handleBlur('email')}
                 onChangeText={handleChange('email')}
-                error={errors.email}
-                touched={touched.email}
-                textContentType="emailAddress"
-                autoCompleteType="email"
-                keyboardType="email-address"
-                returnKeyType="next"
+                placeholder="Email"
+                placeholderTextColor={colors.gunmetal}
                 returnKeyLabel="Next"
-                autoCapitalize="none"
+                returnKeyType="next"
+                textContentType="emailAddress"
+                touched={touched.email}
+                value={values.email}
               />
             </View>
 
@@ -99,25 +92,31 @@ function RegisterScreen({ navigation }) {
               <MaterialCommunityIcons
                 size={20}
                 style={styles.icon}
-                // color={!touched ? '#223e4b' : errors ? '#FF5A5F' : '#223e4b'}
+                color={
+                  !touched
+                    ? colors.gunmetal
+                    : errors.password
+                    ? '#FF5A5F'
+                    : colors.gunmetal
+                }
                 name="lock"
               />
 
               <TextInput
-                style={styles.passwordInput}
-                placeholder="Password"
+                autoCapitalize="none"
+                autoCompleteType="password"
+                error={errors.password}
                 name="password"
-                placeholderTextColor={colors.gunmetal}
-                secureTextEntry={showPassword}
-                value={values.password}
                 onBlur={handleBlur('password')}
                 onChangeText={handleChange('password')}
-                error={errors.password}
-                touched={touched.password}
-                autoCompleteType="password"
-                autoCapitalize="none"
-                returnKeyType="go"
+                placeholder="Password"
+                placeholderTextColor={colors.gunmetal}
                 returnKeyLabel="Go"
+                returnKeyType="go"
+                secureTextEntry={showPassword}
+                style={styles.passwordInput}
+                touched={touched.password}
+                value={values.password}
               />
               <TouchableOpacity onPress={() => secureTextDisplay()}>
                 <MaterialCommunityIcons
@@ -127,6 +126,7 @@ function RegisterScreen({ navigation }) {
                 />
               </TouchableOpacity>
             </View>
+
             <FspButton
               title="Register"
               color="Primary"
@@ -144,25 +144,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  error: { color: 'white', alignSelf: 'flex-start', marginLeft: 25 },
   background: {
     flex: 1,
-    resizeMode: 'cover',
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  error: { color: 'white', alignSelf: 'flex-start', marginLeft: 25 },
-  icon: { marginHorizontal: 10, color: colors.gunmetal },
+  icon: { marginHorizontal: 10 },
   input: {
-    flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    width: '90%',
-    borderRadius: 10,
-    height: 50,
-    marginVertical: 20,
     backgroundColor: 'white',
     borderColor: colors.Primary,
+    borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'row',
+    height: 50,
+    marginVertical: 10,
+    width: '90%',
   },
   passwordInput: { width: '80%' },
 });

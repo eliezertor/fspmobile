@@ -38,7 +38,7 @@ function RegisterScreen({ navigation }) {
 
   return (
     <ImageBackground
-      blurRadius={3}
+      blurRadius={Platform.OS === 'ios' ? 8 : 2}
       source={require('../assets/movie-back.jpg')}
       style={styles.background}
     >

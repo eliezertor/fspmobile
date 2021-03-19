@@ -59,7 +59,7 @@ const setToken = async () => {
   });
 };
 
-// signs out user and calls remove token to delete token
+// Signs out user and calls remove token to delete token
 const signOut = () => {
   firebase
     .auth()

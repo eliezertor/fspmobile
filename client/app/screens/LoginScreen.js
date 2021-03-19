@@ -42,12 +42,11 @@ function LoginScreen({ navigation }) {
     let user = await getToken.getUser();
     if (user) setUser(user);
   };
-
   console.log(user, 'This is me ');
 
   return (
     <ImageBackground
-      blurRadius={3}
+      blurRadius={Platform.OS === 'ios' ? 8 : 2}
       source={require('../assets/movie-back.jpg')}
       style={styles.background}
     >

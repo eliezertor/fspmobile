@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { StatusBar } from 'expo-status-bar';
@@ -17,6 +17,7 @@ import authStorage from './app/auth/authStorage';
 const Stack = createStackNavigator();
 
 export default function App() {
+  
   const [user, setUser] = useState();
   const [isReady, setIsReady] = useState(false);
 

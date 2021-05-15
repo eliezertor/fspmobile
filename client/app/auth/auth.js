@@ -59,14 +59,14 @@ const setToken = async () => {
   });
 };
 
-// signs out user and calls remove token to delete token
+// Signs out user and calls remove token to delete token
 const signOut = () => {
   firebase
     .auth()
     .signOut()
     .then(() => {
-      authStorage.removeToken();
       setUser(null);
+      authStorage.removeToken();
     })
     .catch((error) => {
       // An error happened.

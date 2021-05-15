@@ -1,57 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { StatusBar } from 'expo-status-bar';
-import Constants from 'expo-constants';
+// import { StatusBar } from 'expo-status-bar';
+// import Constants from 'expo-constants';
 import { AppLoading } from 'expo';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import MoviesApi from './app/api/movies';
-import LoginScreen from './app/screens/LoginScreen';
-import WelcomeScreen from './app/screens/WelcomeScreen';
-import RegisterScreen from './app/screens/RegisterScreen';
-import authStorage from './app/auth/authStorage';
+// import MoviesApi from './app/api/movies';
+// import LoginScreen from './app/screens/LoginScreen';
+// import WelcomeScreen from './app/screens/WelcomeScreen';
+// import RegisterScreen from './app/screens/RegisterScreen';
+// import AuthStorage from './app/auth/authStorage';
+import AuthNavigator from './app/screens/AuthNavigator';
+import loginOut from './app/auth/loginOut';
+import AuthContext from './app/auth/context';
+import AppNavigator from './app/screens/AppNavigator';
+// import loginOut from './app/auth/loginOut';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  // const auth = loginOut();
+
   const [user, setUser] = useState();
   const [isReady, setIsReady] = useState(false);
+
+  // if (!isReady)
+  //   return (
+  //     <AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} />
+  //   );
+  console.log(user, 'Appp user');
 
   const restoreUser = async () => {
     let user = await authStorage.getUser();
     if (user) setUser(user);
   };
 
-  if (!isReady)
-    return (
-      <AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} />
-    );
-
-  console.log(user);
-
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <NavigationContainer>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 

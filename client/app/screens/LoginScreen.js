@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 import signIn from '../auth/auth';
 import getToken from '../auth/authStorage';
 import FspButton from '../component/FspButton';
+import loginOut from '../auth/loginOut';
 import colors from '../config/colors';
 
 function LoginScreen({ navigation }) {
@@ -38,16 +39,17 @@ function LoginScreen({ navigation }) {
     signIn.signIn(email, password);
   };
 
+  const auth = loginOut();
+
   const restoreUser = async () => {
     let user = await getToken.getUser();
     if (user) setUser(user);
   };
-
-  console.log(user, 'This is me ');
+  // console.log(user, 'This is me ');
 
   return (
     <ImageBackground
-      blurRadius={3}
+      blurRadius={Platform.OS === 'ios' ? 8 : 2}
       source={require('../assets/movie-back.jpg')}
       style={styles.background}
     >
@@ -142,16 +144,18 @@ function LoginScreen({ navigation }) {
                 title="Login"
                 color="Primary"
                 onPress={() => {
-                  handleSubmit(values), restoreUser();
+                  handleSubmit(values);
+                  restoreUser();
+                  auth.loggedInUser();
                 }}
               />
             </View>
-            <FspButton
+            {/* <FspButton
               style={styles.button}
               title="Sign Out"
               color="secondary"
               onPress={() => signIn.signOut()}
-            />
+            /> */}
           </>
         )}
       </Formik>

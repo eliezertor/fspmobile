@@ -1,25 +1,61 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import FspButton from '../component/FspButton';
-import signIn from '../auth/auth';
-import loginOut from '../auth/loginOut';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import MoviesScreen from './MovieScreen';
+import TvScreen from './TvScreen';
+import SettingsScreen from './SettingsScreen';
+import HomeScreen from './HomeScreen';
+
+const Tab = createBottomTabNavigator();
 
 function AppNavigator(props) {
-  let auth = loginOut();
-
   return (
-    <View style={styles.container}>
-      <Text>You Made it here !</Text>
-      <FspButton
-        style={styles.button}
-        title="Sign Out"
-        color="secondary"
-        onPress={() => {
-          signIn.signOut();
-          auth.logoutUser();
-        }}
-      />
-    </View>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home';
+          } else if (route.name === 'Settings') {
+            iconName = focused
+              ? 'account-settings'
+              : 'account-settings-outline';
+          } else if (route.name === 'Movies') {
+            iconName = focused ? 'movie-open' : 'movie-open-outline';
+          } else if (route.name === 'TV') {
+            iconName = focused ? 'md-tv' : 'md-tv-outline';
+          }
+
+          if (route.name === 'TV') {
+            return <Ionicons name={iconName} size={size} color={color} />;
+          } else {
+            return (
+              <MaterialCommunityIcons
+                name={iconName}
+                size={size}
+                color={color}
+              />
+            );
+          }
+        },
+      })}
+      tabBarOptions={{
+        style: {
+          height: 55,
+        },
+        labelPosition: 'beside-icon',
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+      }}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Movies" component={MoviesScreen} />
+      <Tab.Screen name="TV" component={TvScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
   );
 }
 const styles = StyleSheet.create({

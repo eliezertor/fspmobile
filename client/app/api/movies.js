@@ -20,4 +20,8 @@ const apiMdb = create({
   baseURL: `https://api.themoviedb.org/3/search`,
 });
 
-export default { search, create, searchName, apiMdb };
+const imdbImage = create({
+  baseURL: `https://image.tmdb.org/t/p/w500/`,
+});
+
+export default { search, create, searchName, apiMdb, imdbImage };

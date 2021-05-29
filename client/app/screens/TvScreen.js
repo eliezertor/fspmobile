@@ -2,11 +2,11 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import SafeAreaScreen from '../component/SafeAreaScreen';
 
-function MoviesScreen(props) {
+function TvScreen(props) {
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
-        <Text>Movies!</Text>
+        <Text>Tv!</Text>
       </View>
     </SafeAreaScreen>
   );
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MoviesScreen;
+export default TvScreen;

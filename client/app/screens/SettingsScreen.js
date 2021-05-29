@@ -1,12 +1,26 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import SafeAreaScreen from '../component/SafeAreaScreen';
+import FspButton from '../component/FspButton';
+import signIn from '../auth/auth';
+import loginOut from '../auth/loginOut';
 
-function MoviesScreen(props) {
+function SettingsScreen(props) {
+  let auth = loginOut();
+
   return (
     <SafeAreaScreen>
       <View style={styles.container}>
         <Text>Movies!</Text>
+        <FspButton
+          style={styles.button}
+          title="Sign Out"
+          color="secondary"
+          onPress={() => {
+            signIn.signOut();
+            auth.logoutUser();
+          }}
+        />
       </View>
     </SafeAreaScreen>
   );
@@ -20,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MoviesScreen;
+export default SettingsScreen;

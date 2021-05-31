@@ -4,7 +4,7 @@ import SafeAreaScreen from '../component/SafeAreaScreen';
 
 function MoviesScreen(props) {
   return (
-    <SafeAreaScreen>
+    <SafeAreaScreen style={{ flex: 1, backgroundColor: '#8D918D' }}>
       <View style={styles.container}>
         <Text>Movies!</Text>
       </View>

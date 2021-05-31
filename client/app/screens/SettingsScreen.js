@@ -9,7 +9,7 @@ function SettingsScreen(props) {
   let auth = loginOut();
 
   return (
-    <SafeAreaScreen>
+    <SafeAreaScreen style={{ flex: 1, backgroundColor: '#8D918D' }}>
       <View style={styles.container}>
         <Text>Movies!</Text>
         <FspButton
